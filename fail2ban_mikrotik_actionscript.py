@@ -17,7 +17,7 @@ def generate_default_config():
         "telegramToken": "",
         "telegramChat": "",
         "logFile": f"{SCRIPT_NAME}.log",
-        "sshKey": "fail2ban",
+        "sshKey": "fail2ban.key",
         "sshKeyType": "ED25519",
         "sshKeyPass": "-",
         "sshPort": 22,
