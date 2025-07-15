@@ -1,0 +1,7 @@
+!README.md
+!.gitignore
+*.pub
+*.key
+*.conf
+*.log
+/*
