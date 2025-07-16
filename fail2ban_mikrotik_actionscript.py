@@ -41,13 +41,13 @@ def load_config():
         with open(CONFIG_FILE, 'r',encoding='utf8') as file:
             config = json.load(file)
         for id,key in enumerate(config.keys()):
-            if (key in ["logFile", "sshKey", "sshPort", "sshUserName", "FirewallAddressList"]):
+            if (key in ["logFile", "sshKey", "sshPort", "sshUserName", "FirewallAddressListv4", "FirewallAddressListv6"]):
                 if config.get(key) in [None, "", "None"]:
                     print(f"Important parameter of {key} is not defined! Can't proceed")
                     exit(1)
                 else:
-                    success += 1               
-        if success != 5:
+                    success += 1
+        if success != 6:
             print(f"Some variables are not set in config file. Please fix it then run the program again.")
             exit(1)
         TELEGRAM_TOKEN = config.get('telegramToken').strip()
