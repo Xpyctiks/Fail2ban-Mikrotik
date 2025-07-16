@@ -55,6 +55,10 @@ After that, you need to upload a public key you have just generated (id_ed25519.
 ```
 /user/ssh-keys/import public-key-file=id_ed25519.pub user=fail2ban
 ```
+Also, you need to set the Log option in your Mikrotik's firewall rule to make a log record when new connection packets arrived to your router.For example:  
+```
+/ip/firewall/filter/add chain=input protocol=udp dst-port=1701,4500,500 action=accept log=yes log-prefix=VPN
+```
 And do not forget to create some ban rule in Mikrotik's Firewall which will use an address list with the name you need to set in Mikrotik and then in script's config. file.  
   
 ### Step 2:  

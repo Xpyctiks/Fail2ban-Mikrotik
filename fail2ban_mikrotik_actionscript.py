@@ -123,10 +123,10 @@ def banip(deviceIp: str, banIp: str, service: str)->None:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         """Check of banIP address correct syntax and its type"""
         if ip_version(banIp) == "IPv4":
-            COMMAND=f"/ip/firewall/address-list/add list={FIREWALLADDRLISTv4} address={banIp} comment=\"Fail2ban: {service}\""
+            COMMAND=f"/ip/firewall/address-list/add list={FIREWALLADDRLISTv4} address={banIp} comment=\"Fail2ban: {service}\"; /log/error message=\"IP address {banIp} was banned by service {service}\""
             logging.info("banIP has a type of IPv4")
         elif ip_version(banIp) == "IPv6":
-            COMMAND=f"/ipv6/firewall/address-list/add list={FIREWALLADDRLISTv6} address={banIp} comment=\"Fail2ban: {service}\""
+            COMMAND=f"/ipv6/firewall/address-list/add list={FIREWALLADDRLISTv6} address={banIp} comment=\"Fail2ban: {service}\"; /log/error message=\"IP address {banIp} was banned by service {service}\""
             logging.info("banIP has a type of IPv6")
         elif ip_version(banIp) == None:
             logging.error(f"Base check error! banIP(value:{banIp}) has wrong syntax or type, or any other error.")
@@ -143,12 +143,12 @@ def banip(deviceIp: str, banIp: str, service: str)->None:
         error  = stderr.read().decode()
         if error:
             logging.error(f"STDERR: {error}")
-            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6). BanIP={banIp}.\n{output.strip()}!","⚠Error while adding to ban list:"))
+            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nBanIP={banIp}.\n{output.strip()}!","⚠Error while adding to ban list:"))
             logging.info("-----------------------------Finished BanIP with error------------------------------------------")
             exit()
         if (len(output) > 0):
             logging.info(f"STDOUT: {output}")
-            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6). BanIP={banIp}.\n{output.strip()}!","⚠Possible error while adding to ban list:"))
+            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nBanIP={banIp}.\n{output.strip()}!","⚠Possible error while adding to ban list:"))
             logging.info("-----------------------------Finished BanIP with error------------------------------------------")
             exit()
         asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nAttackerIP={banIp} Service={service}!","🎣Attacker has been banned:"))
@@ -179,10 +179,10 @@ def unbanip(deviceIp: str, unbanIp: str)->None:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         """Check of unbanIP address correct syntax and its type"""
         if ip_version(unbanIp) == "IPv4":
-            COMMAND=f"/ip/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv4}]"
+            COMMAND=f"/ip/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv4}]; /log/warning message=\"IP address {unbanIp} was unbanned\""
             logging.info("unbanIP has a type of IPv4")
         elif ip_version(unbanIp) == "IPv6":
-            COMMAND=f"/ipv6/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv6}]"
+            COMMAND=f"/ipv6/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv6}]; /log/warning message=\"IP address {unbanIp} was unbanned\""
             logging.info("unbanIP has a type of IPv6")
         elif ip_version(unbanIp) == None:
             logging.error(f"Base check error! unbanIP(value:{unbanIp}) has wrong syntax or type, or any other error.")
@@ -199,15 +199,15 @@ def unbanip(deviceIp: str, unbanIp: str)->None:
         error  = stderr.read().decode()
         if error:
             logging.error(f"STDERR: {error}")
-            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6). UnbanIP={unbanIp}.\n{output.strip()}!","⚠Error while removing from ban list:"))
+            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nUnbanIP={unbanIp}.\n{output.strip()}!","⚠Error while removing from ban list:"))
             logging.info("-----------------------------Finished BanIP with error------------------------------------------")
             exit()
         if (len(output) > 0):
             logging.info(f"STDOUT: {output}")
-            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6). UnbanIP={unbanIp}.\n{output.strip()}!","⚠Possible error while removing from ban list:"))
+            asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nUnbanIP={unbanIp}.\n{output.strip()}!","⚠Possible error while removing from ban list:"))
             logging.info("-----------------------------Finished BanIP with error------------------------------------------")
             exit()
-        asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nUnbanIP={unbanIp}!","☮Attacker IP has been unbanned:"))
+        asyncio.run(send_to_telegram(f"Device={deviceIp}. AddressList={FIREWALLADDRLISTv4}(v4) or {FIREWALLADDRLISTv6}(v6).\nUnbanIP={unbanIp}","☮Attacker IP has been unbanned:"))
         logging.info(f"Done: {COMMAND}")
     finally:
         ssh.close()
