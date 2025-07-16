@@ -49,8 +49,9 @@ chose any name and path to save you want, futher this name and path should be se
 Than, create a user on your Mikrotik device and add a public key for it:
 ```
 /user/group add name=fail2ban policy=ssh,read,write,!local,!telnet,!ftp,!reboot,!policy,!test,!winbox,!password,!web,!sniff,!sensitive,!api,!romon,!rest-api
-/user/add name=fail2ban group=fail2ban
+/user/add name=fail2ban group=fail2ban allowed-address=<your_server_ip>
 ```
+Don't forget to change "your_server_ip" to an IP address of your server from which fail2ban will connect by SSH.  
 After that, you need to upload a public key you have just generated (id_ed25519.pub for example) to the Mikrotik, then import it as a user's public key:  
 ```
 /user/ssh-keys/import public-key-file=id_ed25519.pub user=fail2ban
