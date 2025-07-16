@@ -1,0 +1,13 @@
+[mikrotik-ipsec-l2tp]
+enabled = true
+logpath = /var/log/mikrotik/router.lan.log
+action_  = fail2ban-mikrotik
+findtime  = 1m
+maxretry = 5
+
+[mikrotik-winbox]
+enabled = true
+logpath = /var/log/mikrotik/router.lan.log
+action_  = fail2ban-mikrotik
+findtime  = 1m
+maxretry = 5

@@ -65,18 +65,21 @@ failregex = ^(.*)connection-state:new(.*)proto UDP, <HOST>:(.*)->(.*):1701(.*)$
             ^(.*)connection-state:new(.*)proto UDP, <HOST>:(.*)->(.*):4500(.*)$
             ^(.*)connection-state:new(.*)proto UDP, <HOST>:(.*)->(.*):500(.*)$
 ```
+Also, ready files are provided in filter.d/  folder with this script.  
   
 ### Step 3:  
-Create a record of action rule in /etc/fail2ban/action.d/mikrotik-ipsec-l2tp.conf.  
+
+The ready config file is provided with this script inside action.d/ folder.Just copy it.Description below is just for your interest:  
+Create a record of action rule in /etc/fail2ban/action.d/fail2ban-mikrotik.conf.  
 Syntax of "actionban" is "script_name" "action" "mikrotik_device_ip_or_fqdn" "ip" "service_name" where:  
 "script_name" - full path to the script  
 "action" - can be "banip" or "unbanip"  
-"mikrotik_device_ip_or_fqdn" - IP address or FQDN name of Mikrotik device, where an attacker IP shoud be banned  
+"mikrotik_device_ip_or_fqdn" - IP address or FQDN name of Mikrotik device, where an attacker IP shoud be banned. ***DON'T FORGET TO CHANGE IT!!!***   
 "ip" - don't change it, it is a variable from fail2ban, where an IP of attacker is set  
-"service_name" - just a readable name of a service, to understand why an IP was blocked. Used in comment for Mikrotik's address list.  
+"name" - don't change it, it is a variable from fail2ban, where the name of jail is set  
 ```
 [Definition]
-actionban   = /etc/fail2ban/Fail2ban-Mikrotik/fail2ban_mikrotik_actionscript.py banip router.lan <ip> VPN
+actionban   = /etc/fail2ban/Fail2ban-Mikrotik/fail2ban_mikrotik_actionscript.py banip router.lan <ip> <name>
 actionunban = /etc/fail2ban/Fail2ban-Mikrotik/fail2ban_mikrotik_actionscript.py unbanip router.lan <ip>
 actioncheck =
 actionstart =

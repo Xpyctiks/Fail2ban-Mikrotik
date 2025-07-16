@@ -1,5 +1,9 @@
 !README.md
 !.gitignore
+!action.d/*
+!action.d/
+!filter.d/
+!filter.d/*
 *.pub
 *.key
 *.conf
