@@ -123,10 +123,10 @@ def banip(deviceIp: str, banIp: str, service: str)->None:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         """Check of banIP address correct syntax and its type"""
         if ip_version(banIp) == "IPv4":
-            COMMAND=f"/ip/firewall/address-list/add list={FIREWALLADDRLISTv4} address={banIp} comment=\"Fail2ban: {service}\"; /log/error message=\"IP address {banIp} was banned by service {service}\""
+            COMMAND=f"/ip/firewall/address-list/add list={FIREWALLADDRLISTv4} address={banIp} comment=\"Fail2ban: {service}\"; /log/error message=\"Fail2ban: IP address {banIp} was banned by service {service}\""
             logging.info("banIP has a type of IPv4")
         elif ip_version(banIp) == "IPv6":
-            COMMAND=f"/ipv6/firewall/address-list/add list={FIREWALLADDRLISTv6} address={banIp} comment=\"Fail2ban: {service}\"; /log/error message=\"IP address {banIp} was banned by service {service}\""
+            COMMAND=f"/ipv6/firewall/address-list/add list={FIREWALLADDRLISTv6} address={banIp} comment=\"Fail2ban: {service}\"; /log/error message=\"Fail2ban: IP address {banIp} was banned by service {service}\""
             logging.info("banIP has a type of IPv6")
         elif ip_version(banIp) == None:
             logging.error(f"Base check error! banIP(value:{banIp}) has wrong syntax or type, or any other error.")
@@ -179,10 +179,10 @@ def unbanip(deviceIp: str, unbanIp: str)->None:
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         """Check of unbanIP address correct syntax and its type"""
         if ip_version(unbanIp) == "IPv4":
-            COMMAND=f"/ip/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv4}]; /log/warning message=\"IP address {unbanIp} was unbanned\""
+            COMMAND=f"/ip/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv4}]; /log/warning message=\"Fail2ban: IP address {unbanIp} was unbanned\""
             logging.info("unbanIP has a type of IPv4")
         elif ip_version(unbanIp) == "IPv6":
-            COMMAND=f"/ipv6/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv6}]; /log/warning message=\"IP address {unbanIp} was unbanned\""
+            COMMAND=f"/ipv6/firewall/address-list/remove [find address={unbanIp} and list={FIREWALLADDRLISTv6}]; /log/warning message=\"Fail2ban: IP address {unbanIp} was unbanned\""
             logging.info("unbanIP has a type of IPv6")
         elif ip_version(unbanIp) == None:
             logging.error(f"Base check error! unbanIP(value:{unbanIp}) has wrong syntax or type, or any other error.")
